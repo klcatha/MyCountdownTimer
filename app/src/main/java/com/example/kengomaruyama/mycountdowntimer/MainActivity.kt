@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
                                  countDownInterval: Long) :
     CountDownTimer(millisInFuture, countDownInterval) {
 
-        val isRunning = false
+        var isRunning = false
 
         override fun onTick(millisUntilFinished: Long) {
             val minute = millisUntilFinished / 1000L / 60L
@@ -29,5 +29,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        timerText.text = "3:00"
+        val timer = MyCountDownTimer(3 * 60 * 1000, 100)
+        playStop.setOnClickListener{
+            when (timer.isRunning){
+                true -> timer.apply {
+                    isRunning = false
+                    cancel()
+                    playStop.setImageResource(
+                            R.drawable.ic_play_arrow_black_24dp)
+                }
+                false -> timer.apply {
+                    isRunning = true
+                    start()
+                    playStop.setImageResource(
+                            R.drawable.ic_stop_black_24dp)
+                }
+            }
+        }
     }
 }
